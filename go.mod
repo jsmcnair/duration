@@ -1,3 +1,3 @@
-module github.com/sosodev/duration
+module github.com/jsmcnair/duration
 
 go 1.17
