@@ -1,6 +1,7 @@
 package duration
 
 import (
+	"encoding/json"
 	"reflect"
 	"testing"
 	"time"
@@ -129,4 +130,12 @@ func TestDuration_ToTimeDuration(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestUnmarshallJSON(t *testing.T) {
+	
+		if err := json.Unmarshal([]byte(`"PT13.85S"`), &Duration{}); err != nil {
+        t.Errorf("Error unmarshalling duration from JSON: %v", err)
+    }
+
 }

@@ -1,7 +1,9 @@
 package duration
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"math"
 	"strconv"
 	"time"
@@ -137,3 +139,23 @@ func (duration *Duration) ToTimeDuration() time.Duration {
 
 	return timeDuration
 }
+
+// UnmarshalJSON unamarshals a Json representation of an ISO 8601 duration to a duration object
+func (duration *Duration) UnmarshalJSON(b []byte) error {
+    var v interface{}
+    if err := json.Unmarshal(b, &v); err != nil {
+        return err
+    }
+    switch value := v.(type) {
+    case string:
+        var err error
+        duration, err = Parse(value)
+        if err != nil {
+            return err
+        }
+        return nil
+    default:
+        return errors.New(fmt.Sprintf("Unsupported type trying to unmarshal duration: %v", value))
+    }
+}
+
